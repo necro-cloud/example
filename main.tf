@@ -1,15 +1,15 @@
 module "helm" {
-  source = "git::https://github.com/PhotoAtom/modules//modules/helm?ref=main"
+  source = "git::https://github.com/necro-cloud/modules//modules/helm?ref=main"
 }
 
 module "cluster-issuer" {
-  source = "git::https://github.com/PhotoAtom/modules//modules/cluster-issuer?ref=main"
+  source = "git::https://github.com/necro-cloud/modules//modules/cluster-issuer?ref=main"
 
   depends_on = [module.helm]
 }
 
 module "minio" {
-  source              = "git::https://github.com/PhotoAtom/modules//modules/minio?ref=main"
+  source              = "git::https://github.com/necro-cloud/modules//modules/minio?ref=main"
   cloudflare_token    = var.cloudflare_token
   cloudflare_email    = var.cloudflare_email
   domain              = var.domain
@@ -20,7 +20,7 @@ module "minio" {
 }
 
 module "cnpg" {
-  source                            = "git::https://github.com/PhotoAtom/modules//modules/cnpg?ref=main"
+  source                            = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=main"
   minio_certificate_authority       = module.minio.certificate-authority-name
   minio_namespace                   = module.minio.namespace
   cluster_issuer_name               = module.cluster-issuer.cluster-issuer-name
@@ -40,7 +40,7 @@ module "cnpg" {
 }
 
 module "keycloak" {
-  source                                     = "git::https://github.com/PhotoAtom/modules//modules/keycloak?ref=main"
+  source                                     = "git::https://github.com/necro-cloud/modules//modules/keycloak?ref=main"
   cluster_issuer_name                        = module.cluster-issuer.cluster-issuer-name
   postgres_namespace                         = module.cnpg.namespace
   database_server_certificate_authority_name = module.cnpg.server-certificate-authority
@@ -55,7 +55,7 @@ module "keycloak" {
 }
 
 module "valkey" {
-  source                 = "git::https://github.com/PhotoAtom/modules//modules/valkey?ref=main"
+  source                 = "git::https://github.com/necro-cloud/modules//modules/valkey?ref=main"
   cluster_issuer_name    = module.cluster-issuer.cluster-issuer-name
   replication_namespaces = "cloud"
 }

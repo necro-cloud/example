@@ -17,7 +17,7 @@ on:
 jobs:
   infrastructure_deploy:
     name: Infrastructure Deployment on Self Hosted Kubernetes Cluster
-    uses: PhotoAtom/automations/.github/workflows/tofu-deploy.yml@main
+    uses: necro-cloud/automations/.github/workflows/tofu-deploy.yml@main
     with:
       deployment_name: Infrastructure
       folder_path: .
