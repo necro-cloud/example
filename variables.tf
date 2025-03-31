@@ -17,6 +17,26 @@ variable "domain" {
   nullable    = false
 }
 
+# --------------- KEYCLOAK REALM CONFIGURATION VARIABLES --------------- #
+
+variable "keycloak_authentication_base_url" {
+  description = "Base URL for Keycloak in order to use SSO Authentication with"
+  type        = string
+  default     = "http://localhost:5173"
+}
+
+variable "keycloak_authentication_valid_login_redirect_path" {
+  description = "Valid Login Redirect Path for Keycloak in order to use SSO Authentication with"
+  type        = string
+  default     = "/auth/signin/callback"
+}
+
+variable "keycloak_authentication_valid_logout_redirect_path" {
+  description = "Valid Logout Redirect Path for Keycloak in order to use SSO Authentication with"
+  type        = string
+  default     = "/auth/signout/callback"
+}
+
 # --------------- SMTP SERVER VARIABLES --------------- #
 variable "smtp_host" {
   description = "Host of the SMTP Server to be used for sending mails"
