@@ -40,7 +40,7 @@ module "cnpg" {
 }
 
 module "keycloak" {
-  source                                     = "git::https://github.com/necro-cloud/modules//modules/keycloak?ref=main"
+  source                                     = "git::https://github.com/necro-cloud/modules//modules/keycloak?ref=feature/15/kc-vars "
   cluster_issuer_name                        = module.cluster-issuer.cluster-issuer-name
   postgres_namespace                         = module.cnpg.namespace
   database_server_certificate_authority_name = module.cnpg.server-certificate-authority
