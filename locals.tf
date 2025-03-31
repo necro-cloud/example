@@ -1,5 +1,6 @@
 locals {
   keycloak_realm_settings = {
+    display_name     = "Necronizer's Cloud"
     application_name = "cloud"
     smtp_host        = var.smtp_host
     smtp_port        = var.smtp_port
