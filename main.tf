@@ -8,6 +8,16 @@ module "cluster-issuer" {
   depends_on = [module.helm]
 }
 
+module "garage" {
+  source              = "git::https://github.com/necro-cloud/modules//modules/garage?ref=feature/23/garage"
+  cloudflare_token    = var.cloudflare_token
+  cloudflare_email    = var.cloudflare_email
+  domain              = var.domain
+  cluster_issuer_name = module.cluster-issuer.cluster-issuer-name
+  users               = ["cloud"]
+  buckets             = ["cloud"]
+}
+
 module "minio" {
   source              = "git::https://github.com/necro-cloud/modules//modules/minio?ref=main"
   cloudflare_token    = var.cloudflare_token
