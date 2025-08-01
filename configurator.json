@@ -1,5 +1,5 @@
 {
-	"adminApiUrl": "https://garage-0.garage-headless:3943",
+	"adminApiUrl": "https://garage-0.garage-headless.garage.svc.cluster.local:3943",
 	"k8sClusterName": "garage",
 	"k8sClusterNamespace": "garage",
 	"region": "garage",
