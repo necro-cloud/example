@@ -1,0 +1,63 @@
+{
+	"adminApiUrl": "https://garage-0.garage-service.garage.svc.cluster.local:3943",
+	"k8sClusterName": "garage",
+	"k8sClusterNamespace": "garage",
+	"region": "garage",
+	"desiredReplicas": 3,
+	"nodeTags": ["garage", "node"],
+	"buckets": ["postgresql", "cloud"],
+	"storagePerNodeInGBs": 5,
+	"accessKeysSecretAnnotations": {
+		"reflector.v1.k8s.emberstack.com/reflection-allowed": "true",
+		"reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces": "postgres"
+	},
+	"accessKeysSecretLabels": {
+		"app": "garage",
+		"component": "secret",
+		"generated-by": "garage-configurator"
+	},
+	"accessKeys": [
+		{
+			"name": "walbackups",
+			"createBucket": false,
+			"permissions": [
+				{
+					"bucket": "postgresql",
+					"owner": true,
+					"read": true,
+					"write": true
+				}
+			]
+		},
+		{
+			"name": "master",
+			"createBucket": true,
+			"permissions": [
+				{
+					"bucket": "postgresql",
+					"owner": true,
+					"read": true,
+					"write": true
+				},
+				{
+					"bucket": "cloud",
+					"owner": true,
+					"read": true,
+					"write": true
+				}
+			]
+		},
+		{
+			"name": "cloud",
+			"createBucket": true,
+			"permissions": [
+				{
+					"bucket": "cloud",
+					"owner": true,
+					"read": true,
+					"write": true
+				}
+			]
+		}
+	]
+}

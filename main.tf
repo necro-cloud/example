@@ -14,8 +14,7 @@ module "garage" {
   cloudflare_email    = var.cloudflare_email
   domain              = var.domain
   cluster_issuer_name = module.cluster-issuer.cluster-issuer-name
-  users               = ["cloud"]
-  buckets             = ["cloud"]
+  configuration_file  = "${path.module}/configurator.json"
 }
 
 module "minio" {
