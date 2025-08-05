@@ -45,7 +45,7 @@ module "cnpg" {
     }
   ]
 
-  depends_on = [module.minio]
+  depends_on = [module.minio, module.garage]
 }
 
 module "keycloak" {
