@@ -29,7 +29,7 @@ module "minio" {
 }
 
 module "cnpg" {
-  source                            = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=main"
+  source                            = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=feature/23/garage"
   minio_certificate_authority       = module.minio.certificate-authority-name
   minio_namespace                   = module.minio.namespace
   cluster_issuer_name               = module.cluster-issuer.cluster-issuer-name
