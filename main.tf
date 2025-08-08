@@ -35,6 +35,7 @@ module "cnpg" {
       privateKeyEncoding = "PKCS1"
     }
   ]
+  depends_on = [module.garage]
 }
 
 module "keycloak" {
