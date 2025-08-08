@@ -15,38 +15,8 @@ module "garage" {
   cloudflare_email       = var.cloudflare_email
   domain                 = var.domain
   replication_namespaces = "postgres"
-  required_buckets       = ["cloud", "postgresql"]
-  required_access_keys = [
-    {
-      name         = "walbackups",
-      createBucket = false,
-      permissions = [
-        {
-          bucket = "postgresql",
-          owner  = true,
-          read   = true,
-          write  = true
-        }
-      ]
-    },
-    {
-      name         = "master",
-      createBucket = true,
-      permissions = [
-        {
-          bucket = "postgresql",
-          owner  = true,
-          read   = true,
-          write  = true
-        },
-        {
-          bucket = "cloud",
-          owner  = true,
-          read   = true,
-          write  = true
-      }]
-    }
-  ]
+  required_buckets       = var.garage_required_buckets
+  required_access_keys   = var.garage_required_access_keys
 }
 
 # module "cnpg" {

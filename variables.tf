@@ -17,6 +17,70 @@ variable "domain" {
   nullable    = false
 }
 
+# --------------- GARAGE CONFIGURATION VARIABLES --------------- #
+
+variable "garage_required_access_keys" {
+  description = "Access Keys required to be configured within the Garage Cluster"
+  type = list(object({
+    name         = string
+    createBucket = bool
+    permissions = list(object({
+      bucket = string
+      owner  = bool
+      read   = bool
+      write  = bool
+    }))
+  }))
+  default = [
+    {
+      name         = "walbackups",
+      createBucket = false,
+      permissions = [
+        {
+          bucket = "postgresql",
+          owner  = true,
+          read   = true,
+          write  = true
+        }
+      ]
+    },
+    {
+      name         = "master",
+      createBucket = true,
+      permissions = [
+        {
+          bucket = "postgresql",
+          owner  = true,
+          read   = true,
+          write  = true
+        },
+        {
+          bucket = "cloud",
+          owner  = true,
+          read   = true,
+          write  = true
+      }]
+    },
+    {
+      name         = "cloud",
+      createBucket = true,
+      permissions = [
+        {
+          bucket = "cloud",
+          owner  = true,
+          read   = true,
+          write  = true
+        },
+      ]
+  }]
+}
+
+variable "garage_required_buckets" {
+  description = "Buckets to deploy in the Garage Cluster"
+  type        = list(string)
+  default     = ["cloud", "postgresql"]
+}
+
 # --------------- KEYCLOAK REALM CONFIGURATION VARIABLES --------------- #
 
 variable "keycloak_authentication_base_url" {
