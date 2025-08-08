@@ -48,6 +48,7 @@ module "keycloak" {
   domain                                     = var.domain
   database_credentials                       = "credentials-keycloak"
   realm_settings                             = local.keycloak_realm_settings
+  depends_on                                 = [module.cnpg]
 }
 
 module "valkey" {
