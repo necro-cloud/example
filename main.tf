@@ -19,25 +19,23 @@ module "garage" {
   required_access_keys   = var.garage_required_access_keys
 }
 
-# module "cnpg" {
-#   source                            = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=feature/23/garage"
-#   minio_certificate_authority       = module.minio.certificate-authority-name
-#   minio_namespace                   = module.minio.namespace
-#   cluster_issuer_name               = module.cluster-issuer.cluster-issuer-name
-#   postgres_user_minio_configuration = module.minio.postgres-user-minio-configuration
-#   backup_bucket_name                = module.minio.postgres-backup-bucket
-#   clients = [
-#     {
-#       namespace          = "cloud"
-#       user               = "cloud"
-#       database           = "cloud"
-#       derRequired        = false
-#       privateKeyEncoding = "PKCS1"
-#     }
-#   ]
-
-#   depends_on = [module.minio, module.garage]
-# }
+module "cnpg" {
+  source                       = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=feature/23/garage"
+  garage_certificate_authority = module.garage.garage_internal_certificate_secret
+  garage_namespace             = module.garage.garage_namespace
+  garage_configuration         = "walbackups-credentials"
+  cluster_issuer_name          = module.cluster-issuer.cluster-issuer-name
+  backup_bucket_name           = "postgresql"
+  clients = [
+    {
+      namespace          = "cloud"
+      user               = "cloud"
+      database           = "cloud"
+      derRequired        = false
+      privateKeyEncoding = "PKCS1"
+    }
+  ]
+}
 
 # module "keycloak" {
 #   source                                     = "git::https://github.com/necro-cloud/modules//modules/keycloak?ref=main"
