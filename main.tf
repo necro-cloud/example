@@ -1,5 +1,5 @@
 module "helm" {
-  source = "git::https://github.com/necro-cloud/modules//modules/helm?ref=main"
+  source = "git::https://github.com/necro-cloud/modules//modules/helm?ref=feature/23/garage"
 }
 
 module "cluster-issuer" {
