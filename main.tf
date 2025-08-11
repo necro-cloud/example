@@ -8,24 +8,24 @@ module "cluster-issuer" {
   depends_on = [module.helm]
 }
 
-module "minio" {
-  source              = "git::https://github.com/necro-cloud/modules//modules/minio?ref=main"
-  cloudflare_token    = var.cloudflare_token
-  cloudflare_email    = var.cloudflare_email
-  domain              = var.domain
-  cluster_issuer_name = module.cluster-issuer.cluster-issuer-name
-  operator_namespace  = module.helm.minio-operator-namespace
-  users               = ["cloud"]
-  buckets             = ["cloud"]
+module "garage" {
+  source                 = "git::https://github.com/necro-cloud/modules//modules/garage?ref=main"
+  cluster_issuer_name    = module.cluster-issuer.cluster-issuer-name
+  cloudflare_token       = var.cloudflare_token
+  cloudflare_email       = var.cloudflare_email
+  domain                 = var.domain
+  replication_namespaces = "postgres"
+  required_buckets       = var.garage_required_buckets
+  required_access_keys   = var.garage_required_access_keys
 }
 
 module "cnpg" {
-  source                            = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=main"
-  minio_certificate_authority       = module.minio.certificate-authority-name
-  minio_namespace                   = module.minio.namespace
-  cluster_issuer_name               = module.cluster-issuer.cluster-issuer-name
-  postgres_user_minio_configuration = module.minio.postgres-user-minio-configuration
-  backup_bucket_name                = module.minio.postgres-backup-bucket
+  source                       = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=main"
+  garage_certificate_authority = module.garage.garage_internal_certificate_secret
+  garage_namespace             = module.garage.garage_namespace
+  garage_configuration         = "walbackups-credentials"
+  cluster_issuer_name          = module.cluster-issuer.cluster-issuer-name
+  backup_bucket_name           = "postgresql"
   clients = [
     {
       namespace          = "cloud"
@@ -35,8 +35,7 @@ module "cnpg" {
       privateKeyEncoding = "PKCS1"
     }
   ]
-
-  depends_on = [module.minio]
+  depends_on = [module.garage]
 }
 
 module "keycloak" {
@@ -50,8 +49,7 @@ module "keycloak" {
   domain                                     = var.domain
   database_credentials                       = "credentials-keycloak"
   realm_settings                             = local.keycloak_realm_settings
-
-  depends_on = [module.cnpg]
+  depends_on                                 = [module.cnpg]
 }
 
 module "valkey" {
