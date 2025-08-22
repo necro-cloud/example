@@ -20,7 +20,7 @@ module "garage" {
 }
 
 module "cnpg" {
-  source                       = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=main"
+  source                       = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=task/30/pgadmin"
   garage_certificate_authority = module.garage.garage_internal_certificate_secret
   garage_namespace             = module.garage.garage_namespace
   garage_configuration         = "walbackups-credentials"
