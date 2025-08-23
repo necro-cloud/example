@@ -35,7 +35,10 @@ module "cnpg" {
       privateKeyEncoding = "PKCS1"
     }
   ]
-  depends_on = [module.garage]
+  cloudflare_token = var.cloudflare_token
+  cloudflare_email = var.cloudflare_email
+  domain           = var.domain
+  depends_on       = [module.garage]
 }
 
 module "keycloak" {
