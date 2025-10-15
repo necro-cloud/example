@@ -1,5 +1,5 @@
 module "helm" {
-  source = "git::https://github.com/necro-cloud/modules//modules/helm?ref=main"
+  source = "git::https://github.com/necro-cloud/modules//modules/helm?ref=task/helm-module-upgrades"
 }
 
 module "cluster-issuer" {
