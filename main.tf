@@ -1,5 +1,5 @@
 module "helm" {
-  source               = "git::https://github.com/necro-cloud/modules//modules/helm?ref=task/helm-module-upgrades"
+  source               = "git::https://github.com/necro-cloud/modules//modules/helm?ref=main"
   server_node_selector = "cloud"
 }
 
