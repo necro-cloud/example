@@ -1,5 +1,6 @@
 module "helm" {
-  source = "git::https://github.com/necro-cloud/modules//modules/helm?ref=main"
+  source               = "git::https://github.com/necro-cloud/modules//modules/helm?ref=main"
+  server_node_selector = "cloud"
 }
 
 module "cluster-issuer" {
