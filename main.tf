@@ -1,5 +1,5 @@
 module "helm" {
-  source               = "git::https://github.com/necro-cloud/modules//modules/helm?ref=task/valkey-module-upgrades"
+  source               = "git::https://github.com/necro-cloud/modules//modules/helm?ref=main"
   server_node_selector = "cloud"
 }
 
@@ -57,7 +57,7 @@ module "keycloak" {
 }
 
 module "valkey" {
-  source              = "git::https://github.com/necro-cloud/modules//modules/valkey?ref=task/valkey-module-upgrades"
+  source              = "git::https://github.com/necro-cloud/modules//modules/valkey?ref=main"
   cluster_issuer_name = module.cluster-issuer.cluster-issuer-name
   access_namespaces   = "cloud"
 }
