@@ -57,7 +57,7 @@ module "keycloak" {
 }
 
 module "valkey" {
-  source                 = "git::https://github.com/necro-cloud/modules//modules/valkey?ref=main"
-  cluster_issuer_name    = module.cluster-issuer.cluster-issuer-name
-  replication_namespaces = "cloud"
+  source              = "git::https://github.com/necro-cloud/modules//modules/valkey?ref=main"
+  cluster_issuer_name = module.cluster-issuer.cluster-issuer-name
+  access_namespaces   = "cloud"
 }
