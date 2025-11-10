@@ -9,16 +9,16 @@ module "cluster-issuer" {
   depends_on = [module.helm]
 }
 
-# module "garage" {
-#   source                 = "git::https://github.com/necro-cloud/modules//modules/garage?ref=task/44/garage-upgrades"
-#   cluster_issuer_name    = module.cluster-issuer.cluster-issuer-name
-#   cloudflare_token       = var.cloudflare_token
-#   cloudflare_email       = var.cloudflare_email
-#   domain                 = var.domain
-#   access_namespaces = "postgres"
-#   required_buckets       = var.garage_required_buckets
-#   required_access_keys   = var.garage_required_access_keys
-# }
+module "garage" {
+  source               = "git::https://github.com/necro-cloud/modules//modules/garage?ref=task/44/garage-upgrades"
+  cluster_issuer_name  = module.cluster-issuer.cluster-issuer-name
+  cloudflare_token     = var.cloudflare_token
+  cloudflare_email     = var.cloudflare_email
+  domain               = var.domain
+  access_namespaces    = "postgres"
+  required_buckets     = var.garage_required_buckets
+  required_access_keys = var.garage_required_access_keys
+}
 
 # module "cnpg" {
 #   source                       = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=task/44/garage-upgrades"
