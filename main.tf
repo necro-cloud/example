@@ -10,14 +10,14 @@ module "cluster-issuer" {
 }
 
 module "garage" {
-  source                 = "git::https://github.com/necro-cloud/modules//modules/garage?ref=main"
-  cluster_issuer_name    = module.cluster-issuer.cluster-issuer-name
-  cloudflare_token       = var.cloudflare_token
-  cloudflare_email       = var.cloudflare_email
-  domain                 = var.domain
-  replication_namespaces = "postgres"
-  required_buckets       = var.garage_required_buckets
-  required_access_keys   = var.garage_required_access_keys
+  source               = "git::https://github.com/necro-cloud/modules//modules/garage?ref=main"
+  cluster_issuer_name  = module.cluster-issuer.cluster-issuer-name
+  cloudflare_token     = var.cloudflare_token
+  cloudflare_email     = var.cloudflare_email
+  domain               = var.domain
+  access_namespaces    = "postgres"
+  required_buckets     = var.garage_required_buckets
+  required_access_keys = var.garage_required_access_keys
 }
 
 module "cnpg" {
