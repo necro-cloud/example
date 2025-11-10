@@ -10,7 +10,7 @@ module "cluster-issuer" {
 }
 
 module "garage" {
-  source               = "git::https://github.com/necro-cloud/modules//modules/garage?ref=task/44/garage-upgrades"
+  source               = "git::https://github.com/necro-cloud/modules//modules/garage?ref=main"
   cluster_issuer_name  = module.cluster-issuer.cluster-issuer-name
   cloudflare_token     = var.cloudflare_token
   cloudflare_email     = var.cloudflare_email
@@ -21,7 +21,7 @@ module "garage" {
 }
 
 module "cnpg" {
-  source                       = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=task/44/garage-upgrades"
+  source                       = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=main"
   garage_certificate_authority = module.garage.garage_internal_certificate_secret
   garage_namespace             = module.garage.garage_namespace
   garage_configuration         = "walbackups-credentials"
