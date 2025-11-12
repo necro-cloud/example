@@ -42,19 +42,19 @@ module "cnpg" {
   depends_on       = [module.garage]
 }
 
-# module "keycloak" {
-#   source                                     = "git::https://github.com/necro-cloud/modules//modules/keycloak?ref=main"
-#   cluster_issuer_name                        = module.cluster-issuer.cluster-issuer-name
-#   postgres_namespace                         = module.cnpg.namespace
-#   database_server_certificate_authority_name = module.cnpg.server-certificate-authority
-#   database_client_certificate_name           = "postgresql-keycloak-client-certificate"
-#   cloudflare_token                           = var.cloudflare_token
-#   cloudflare_email                           = var.cloudflare_email
-#   domain                                     = var.domain
-#   database_credentials                       = "credentials-keycloak"
-#   realm_settings                             = local.keycloak_realm_settings
-#   depends_on                                 = [module.cnpg]
-# }
+module "keycloak" {
+  source                                     = "git::https://github.com/necro-cloud/modules//modules/keycloak?ref=task/cnpg-module-upgrades"
+  cluster_issuer_name                        = module.cluster-issuer.cluster-issuer-name
+  postgres_namespace                         = module.cnpg.namespace
+  database_server_certificate_authority_name = module.cnpg.server-certificate-authority
+  database_client_certificate_name           = "postgresql-keycloak-client-certificate"
+  cloudflare_token                           = var.cloudflare_token
+  cloudflare_email                           = var.cloudflare_email
+  domain                                     = var.domain
+  database_credentials                       = "credentials-keycloak"
+  realm_settings                             = local.keycloak_realm_settings
+  depends_on                                 = [module.cnpg]
+}
 
 module "valkey" {
   source              = "git::https://github.com/necro-cloud/modules//modules/valkey?ref=main"
