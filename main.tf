@@ -20,27 +20,27 @@ module "garage" {
   required_access_keys = var.garage_required_access_keys
 }
 
-# module "cnpg" {
-#   source                       = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=main"
-#   garage_certificate_authority = module.garage.garage_internal_certificate_secret
-#   garage_namespace             = module.garage.garage_namespace
-#   garage_configuration         = "walbackups-credentials"
-#   cluster_issuer_name          = module.cluster-issuer.cluster-issuer-name
-#   backup_bucket_name           = "postgresql"
-#   clients = [
-#     {
-#       namespace          = "cloud"
-#       user               = "cloud"
-#       database           = "cloud"
-#       derRequired        = false
-#       privateKeyEncoding = "PKCS1"
-#     }
-#   ]
-#   cloudflare_token = var.cloudflare_token
-#   cloudflare_email = var.cloudflare_email
-#   domain           = var.domain
-#   depends_on       = [module.garage]
-# }
+module "cnpg" {
+  source                       = "git::https://github.com/necro-cloud/modules//modules/cnpg?ref=task/cnpg-module-upgrades"
+  garage_certificate_authority = module.garage.garage_internal_certificate_secret
+  garage_namespace             = module.garage.garage_namespace
+  garage_configuration         = "walbackups-credentials"
+  cluster_issuer_name          = module.cluster-issuer.cluster-issuer-name
+  backup_bucket_name           = "postgresql"
+  clients = [
+    {
+      namespace          = "cloud"
+      user               = "cloud"
+      database           = "cloud"
+      derRequired        = false
+      privateKeyEncoding = "PKCS1"
+    }
+  ]
+  cloudflare_token = var.cloudflare_token
+  cloudflare_email = var.cloudflare_email
+  domain           = var.domain
+  depends_on       = [module.garage]
+}
 
 # module "keycloak" {
 #   source                                     = "git::https://github.com/necro-cloud/modules//modules/keycloak?ref=main"
