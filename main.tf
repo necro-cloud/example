@@ -1,3 +1,11 @@
+data "kubernetes_endpoints_v1" "kubernetes_api_endpoint" {
+  metadata {
+    name      = "kubernetes"
+    namespace = "default"
+
+  }
+}
+
 module "helm" {
   source               = "git::https://github.com/necro-cloud/modules//modules/helm?ref=main"
   server_node_selector = "cloud"
@@ -10,14 +18,17 @@ module "cluster-issuer" {
 }
 
 module "garage" {
-  source               = "git::https://github.com/necro-cloud/modules//modules/garage?ref=main"
-  cluster_issuer_name  = module.cluster-issuer.cluster-issuer-name
-  cloudflare_token     = var.cloudflare_token
-  cloudflare_email     = var.cloudflare_email
-  domain               = var.domain
-  access_namespaces    = "postgres"
-  required_buckets     = var.garage_required_buckets
-  required_access_keys = var.garage_required_access_keys
+  source                  = "git::https://github.com/necro-cloud/modules//modules/garage?ref=main"
+  cluster_issuer_name     = module.cluster-issuer.cluster-issuer-name
+  cloudflare_token        = var.cloudflare_token
+  cloudflare_email        = var.cloudflare_email
+  domain                  = var.domain
+  access_namespaces       = "postgres"
+  required_buckets        = var.garage_required_buckets
+  required_access_keys    = var.garage_required_access_keys
+  kubernetes_api_ip       = one(flatten(data.kubernetes_endpoints_v1.kubernetes_api_endpoint.subset[*].address[*].ip))
+  kubernetes_api_protocol = one(flatten(data.kubernetes_endpoints_v1.kubernetes_api_endpoint.subset[*].port[*].protocol))
+  kubernetes_api_port     = one(flatten(data.kubernetes_endpoints_v1.kubernetes_api_endpoint.subset[*].port[*].port))
 }
 
 module "cnpg" {
@@ -36,10 +47,13 @@ module "cnpg" {
       privateKeyEncoding = "PKCS1"
     }
   ]
-  cloudflare_token = var.cloudflare_token
-  cloudflare_email = var.cloudflare_email
-  domain           = var.domain
-  depends_on       = [module.garage]
+  cloudflare_token        = var.cloudflare_token
+  cloudflare_email        = var.cloudflare_email
+  domain                  = var.domain
+  kubernetes_api_ip       = one(flatten(data.kubernetes_endpoints_v1.kubernetes_api_endpoint.subset[*].address[*].ip))
+  kubernetes_api_protocol = one(flatten(data.kubernetes_endpoints_v1.kubernetes_api_endpoint.subset[*].port[*].protocol))
+  kubernetes_api_port     = one(flatten(data.kubernetes_endpoints_v1.kubernetes_api_endpoint.subset[*].port[*].port))
+  depends_on              = [module.garage]
 }
 
 module "keycloak" {
